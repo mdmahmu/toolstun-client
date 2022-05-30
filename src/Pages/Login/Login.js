@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loading from "../../Components/Loading/Loading";
 import auth from "../../firebase.init";
+import GoogleLogin from "../GoogleLogin/GoogleLogin";
 
 const Login = () => {
 
@@ -68,9 +69,9 @@ const Login = () => {
     return (
         <div style={myStyle}>
             <div className="container">
-                <h2 className="text-center">LOGIN FORM</h2>
+                <h2 className="text-center mt-2">LOGIN FORM</h2>
 
-                <div className="w-50 mx-auto p-4">
+                <div className="w-50 mx-auto pt-2">
                     <Form onSubmit={handleLogin}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
@@ -90,6 +91,7 @@ const Login = () => {
                     <p>Forgot password ?<Button variant="link" className="text-decoration-none text-danger" onClick={handleResetPassword}>Click here to reset</Button></p>
                     <p>New to ToolsTun ? <NavLink to='/register' className="text-danger text-decoration-none" >Create an account</NavLink></p>
                 </div>
+                <GoogleLogin></GoogleLogin>
             </div>
         </div>
     );

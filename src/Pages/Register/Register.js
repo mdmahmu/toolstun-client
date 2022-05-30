@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Loading from "../../Components/Loading/Loading";
 import auth from "../../firebase.init";
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import GoogleLogin from "../GoogleLogin/GoogleLogin";
 
 const Register = () => {
 
@@ -92,6 +93,7 @@ const Register = () => {
                     </p>
                 </div>
                 <br />
+                <GoogleLogin></GoogleLogin>
             </div>
         </div>
     );
