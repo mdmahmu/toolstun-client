@@ -25,7 +25,6 @@ function App() {
           <RequireAuth>
             <Dashboard></Dashboard>
           </RequireAuth>
-
         }></Route>
 
 
