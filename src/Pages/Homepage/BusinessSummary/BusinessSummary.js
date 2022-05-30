@@ -8,9 +8,10 @@ import { CogIcon } from '@heroicons/react/solid';
 const BusinessSummary = () => {
     return (
         <div className="container">
-            <Row xs={1} md={2} lg={4} className="g-4">
+            <h2 className="text-center text-danger">Business Summary</h2>
+            <Row xs={1} sm={2} lg={4} className="g-2">
                 <Col>
-                    <Card>
+                    <Card style={{ backgroundColor: '#DEDEDD' }}>
                         <Card.Body className="d-flex align-items-center justify-content-center">
                             <UserGroupIcon className="w-25 text-info" />
                             <div className="ms-4">
@@ -21,7 +22,7 @@ const BusinessSummary = () => {
                     </Card>
                 </Col>
                 <Col>
-                    <Card>
+                    <Card style={{ backgroundColor: '#DEDEDD' }}>
                         <Card.Body className="d-flex align-items-center justify-content-center">
                             <EyeIcon className="w-25 text-info" />
                             <div className="ms-4">
@@ -32,18 +33,18 @@ const BusinessSummary = () => {
                     </Card>
                 </Col>
                 <Col>
-                    <Card>
+                    <Card style={{ backgroundColor: '#DEDEDD' }}>
                         <Card.Body className="d-flex align-items-center justify-content-center">
                             <CurrencyDollarIcon className="w-25 text-info" />
                             <div className="ms-4">
                                 <Card.Title>5M+</Card.Title>
-                                <Card.Text className="text-start text-truncate mb-0">Annual Revenue</Card.Text>
+                                <Card.Text className="text-start text-truncate mb-0">Revenue/year</Card.Text>
                             </div>
                         </Card.Body>
                     </Card>
                 </Col>
                 <Col>
-                    <Card>
+                    <Card style={{ backgroundColor: '#DEDEDD' }}>
                         <Card.Body className="d-flex align-items-center justify-content-center">
                             <CogIcon className="w-25 text-info" />
                             <div className="ms-4">
