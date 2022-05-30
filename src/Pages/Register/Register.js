@@ -1,14 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import Loading from "../../Components/Loading/Loading";
+import auth from "../../firebase.init";
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 
 const Register = () => {
+
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
     const [agree, setAgree] = useState(false);
+    const navigate = useNavigate();
+
+    const [
+        createUserWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+
+    useEffect(() => {
+        if (user) {
+            navigate('/');
+        }
+    }, [user]);
 
     const handleRegister = event => {
+        event.preventDefault();
+
+        if (password === confirmedPassword) {
+            createUserWithEmailAndPassword(email, password);
+            if (error) {
+                alert(error.message);
+            }
+        }
     };
+
+    if (loading) {
+        return <Loading></Loading>;
+    }
 
     const myStyle = {
         backgroundImage:
@@ -30,7 +61,7 @@ const Register = () => {
 
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" name="email" placeholder="Enter email" />
+                            <Form.Control type="email" name="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} />
                             <Form.Text className="text-muted">
                                 We'll never share your email with anyone else.
                             </Form.Text>
