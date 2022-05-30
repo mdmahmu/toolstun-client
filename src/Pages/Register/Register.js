@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Loading from "../../Components/Loading/Loading";
 import auth from "../../firebase.init";
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import GoogleLogin from "../GoogleLogin/GoogleLogin";
+import GoogleLogin from "../Shared/GoogleLogin/GoogleLogin";
 
 const Register = () => {
 

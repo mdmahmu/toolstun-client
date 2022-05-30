@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
 import { Button } from "react-bootstrap";
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { useNavigate } from "react-router-dom";
-import Loading from "../../Components/Loading/Loading";
-import auth from "../../firebase.init";
-import googleLogo from "../../Images/google.ico";
+import { useLocation, useNavigate } from "react-router-dom";
+import Loading from "../../../Components/Loading/Loading";
+import auth from "../../../firebase.init";
+import googleLogo from "../../../Images/google.ico";
 
 const GoogleLogin = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     const navigate = useNavigate();
 
+    const location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+
     useEffect(() => {
         if (user) {
-            navigate('/');
+            navigate(from, { replace: true });
         }
     }, [user]);
 

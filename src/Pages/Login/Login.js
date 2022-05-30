@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form } from "react-bootstrap";
 import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loading from "../../Components/Loading/Loading";
 import auth from "../../firebase.init";
-import GoogleLogin from "../GoogleLogin/GoogleLogin";
+import GoogleLogin from "../Shared/GoogleLogin/GoogleLogin";
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+
+    const location = useLocation();
+    let from = location.state?.from?.pathname || "/";
 
     const [
         signInWithEmailAndPassword,
@@ -22,7 +25,7 @@ const Login = () => {
 
     useEffect(() => {
         if (user) {
-            navigate('/');
+            navigate(from, { replace: true });
         }
     }, [user]);
 
