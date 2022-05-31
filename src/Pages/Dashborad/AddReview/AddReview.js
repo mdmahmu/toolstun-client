@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import auth from "../../../firebase.init";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Rating from 'react-rating';
+import { toast } from "react-toastify";
 
 const AddReview = () => {
     const [user] = useAuthState(auth);
@@ -22,6 +23,7 @@ const AddReview = () => {
         })
             .then(res => res.json())
             .then(result => {
+                toast.success('Review Added Successfully');
                 reset();
                 setRating(0);
             }

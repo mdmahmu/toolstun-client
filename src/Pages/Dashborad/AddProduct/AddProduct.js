@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import auth from "../../../firebase.init";
 
 const AddProduct = () => {
@@ -8,7 +9,21 @@ const AddProduct = () => {
     const { register, handleSubmit } = useForm();
 
     const onSubmit = (data, e) => {
-        console.log(data);
+        const url = `http://localhost:5000/add_product`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+                toast.success('Product Added Successfully');
+                e.target.reset();
+            }
+            );
     };
 
     return (

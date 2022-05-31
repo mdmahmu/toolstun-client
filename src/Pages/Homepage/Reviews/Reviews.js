@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination } from "swiper";
 import Review from "./Review/Review";
+import Loading from "../../../Components/Loading/Loading";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
@@ -40,9 +41,10 @@ const Reviews = () => {
                 className="mySwiper"
             >
                 {
-                    reviews.map(review => <SwiperSlide>
-                        <Review key={review._id} review={review}></Review>
-                    </SwiperSlide>)
+                    !reviews ? <Loading></Loading> :
+                        reviews.map(review => <SwiperSlide>
+                            <Review key={review._id} review={review}></Review>
+                        </SwiperSlide>)
                 }
             </Swiper>
         </div>
