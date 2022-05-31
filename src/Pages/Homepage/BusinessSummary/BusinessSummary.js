@@ -8,10 +8,10 @@ import { CogIcon } from '@heroicons/react/solid';
 const BusinessSummary = () => {
     return (
         <div className="container">
-            <h2 className="text-center text-danger">Business Summary</h2>
-            <Row xs={1} sm={2} lg={4} className="g-2">
+            <h2 className="text-center mb-3 mt-4"><span className="text-danger">Business</span> <span className="text-dark">Summary</span></h2>
+            <Row xs={1} sm={2} lg={4} className="g-3">
                 <Col>
-                    <Card style={{ backgroundColor: '#DEDEDD' }}>
+                    <Card style={{ backgroundColor: '#EEEEEE' }}>
                         <Card.Body className="d-flex align-items-center justify-content-center">
                             <UserGroupIcon className="w-25 text-info" />
                             <div className="ms-4">
@@ -22,7 +22,7 @@ const BusinessSummary = () => {
                     </Card>
                 </Col>
                 <Col>
-                    <Card style={{ backgroundColor: '#DEDEDD' }}>
+                    <Card style={{ backgroundColor: '#EEEEEE' }}>
                         <Card.Body className="d-flex align-items-center justify-content-center">
                             <EyeIcon className="w-25 text-info" />
                             <div className="ms-4">
@@ -33,7 +33,7 @@ const BusinessSummary = () => {
                     </Card>
                 </Col>
                 <Col>
-                    <Card style={{ backgroundColor: '#DEDEDD' }}>
+                    <Card style={{ backgroundColor: '#EEEEEE' }}>
                         <Card.Body className="d-flex align-items-center justify-content-center">
                             <CurrencyDollarIcon className="w-25 text-info" />
                             <div className="ms-4">
@@ -44,7 +44,7 @@ const BusinessSummary = () => {
                     </Card>
                 </Col>
                 <Col>
-                    <Card style={{ backgroundColor: '#DEDEDD' }}>
+                    <Card style={{ backgroundColor: '#EEEEEE' }}>
                         <Card.Body className="d-flex align-items-center justify-content-center">
                             <CogIcon className="w-25 text-info" />
                             <div className="ms-4">
