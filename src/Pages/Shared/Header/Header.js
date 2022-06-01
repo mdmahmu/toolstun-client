@@ -22,7 +22,7 @@ const Header = () => {
                                 <Nav.Link as={NavLink} to="/home">Home</Nav.Link>
                                 <Nav.Link as={NavLink} to="/all_tools">All tools</Nav.Link>
                                 <Nav.Link as={NavLink} to="/blogs">Blogs</Nav.Link>
-                                <Nav.Link as={NavLink} to="/about">About</Nav.Link>
+                                <Nav.Link as={NavLink} to="/my_portfolio">My Portfolio</Nav.Link>
                             </Nav>
                             <Nav>
                                 {user ?

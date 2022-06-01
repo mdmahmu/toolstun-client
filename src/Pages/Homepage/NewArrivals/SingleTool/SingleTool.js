@@ -12,12 +12,12 @@ const SingleTools = ({ tool }) => {
     return (
         <Col>
             <Card className="border border-2 border-dark">
-                <Card.Img variant="top" src={img} />
+                <Card.Img variant="top" src={img} style={{ height: '250px' }} />
                 <Card.Body>
-                    <Card.Title>{name}</Card.Title>
+                    <Card.Title className="text-truncate">{name}</Card.Title>
                     <Card.Text className="text-start text-truncate mb-0">{description}</Card.Text>
                     <Card.Text className="text-start m-0">
-                        Price: {price}
+                        Price: ${price}
                     </Card.Text>
                     <Card.Text className="text-start m-0">
                         Quantity: {quantity}
