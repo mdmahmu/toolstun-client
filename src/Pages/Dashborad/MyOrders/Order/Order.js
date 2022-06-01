@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 const Order = ({ myOrder }) => {
     console.log(myOrder[0]);
-    const [order, index] = myOrder;
+    const [order, index, refetch] = myOrder;
     const navigate = useNavigate();
     const navigateToItemDetail = id => {
         navigate(`/payment/${id}`);
     };
+    refetch();
     return (
         <tr>
             <td>{index + 1}</td>

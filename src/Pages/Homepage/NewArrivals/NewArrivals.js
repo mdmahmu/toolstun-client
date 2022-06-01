@@ -1,12 +1,12 @@
 import React from 'react';
 import { Row } from "react-bootstrap";
 import Loading from "../../../Components/Loading/Loading";
-import useProducts from "../../Shared/Hooks/useProducts";
+import useProducts from "../../Shared/Hooks/useOrders";
 import SingleTool from "./SingleTool/SingleTool";
 
 const NewArrivals = () => {
+    const [tools] = useProducts([]);
 
-    const [tools] = useProducts();
     const newTools = tools.slice(-6, tools.length);
 
     return (

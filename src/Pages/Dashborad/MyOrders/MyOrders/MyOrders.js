@@ -6,7 +6,6 @@ import Loading from "../../../../Components/Loading/Loading";
 import auth from "../../../../firebase.init";
 import Order from "../Order/Order";
 
-
 const MyOrders = () => {
     const [user] = useAuthState(auth);
     const emailOrUid = user?.email || user?.providerData[0]?.uid;
@@ -14,21 +13,17 @@ const MyOrders = () => {
 
     const url = `http://localhost:5000/orders?emailOrUid=${emailOrUid}`;
 
-    const { isLoading, error, data } = useQuery('findingMyOrders', () => fetch(url).then(res => res.json()));
+    const { isLoading, error, data, refetch } = useQuery('findingMyOrders', () => fetch(url).then(res => res.json()));
 
     if (isLoading) {
-        return (
-            <div>
-                <Loading></Loading>;
-            </div>
-        );
+        return <Loading></Loading>;
     }
 
     if (error) {
         if (show) {
             return (
                 <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+                    <Alert.Heading>Oh no! You got an error!</Alert.Heading>
                     <p>Error : {error.message}</p>
                 </Alert>
             );
@@ -51,7 +46,7 @@ const MyOrders = () => {
                     </thead>
                     <tbody>
                         {
-                            data.map((myOrder, index) => <Order key={index} myOrder={[myOrder, index]}></Order>)
+                            data.map((myOrder, index) => <Order key={index} myOrder={[myOrder, index, refetch]}></Order>)
                         }
                     </tbody>
                 </Table>

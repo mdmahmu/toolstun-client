@@ -1,9 +1,55 @@
-import React from 'react';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import React, { useState } from 'react';
+import { Alert, Card } from "react-bootstrap";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import Loading from "../../Components/Loading/Loading";
+import CheckoutForm from "./CheckoutForm";
+
+const stripePromise = loadStripe('pk_test_51L5l9QIdyjEg6zNXA5FN89R2WkkeqplW4fH7VPiwqEQ3KyHy5cxg0zMxuDCzCGhC0Jy7OM2Q1uMvDysw6wbxv7ds00i65Y5ieb');
 
 const Payment = () => {
+
+    const { orderId } = useParams();
+    const [show, setShow] = useState(true);
+
+    const url = `http://localhost:5000/payment/${orderId}`;
+    const { isLoading, error, data } = useQuery('findingMyOrders', () => fetch(url).then(res => res.json()));
+
+    if (isLoading) {
+        return <Loading></Loading>;
+    }
+
+    if (error) {
+        if (show) {
+            return (
+                <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                    <Alert.Heading>Oh no! You got an error!</Alert.Heading>
+                    <p>Error : {error.message}</p>
+                </Alert>
+            );
+        }
+    }
+
     return (
-        <div>
-            Payment page
+        <div className="container">
+            <h2 className="text-center text-danger my-4">Enter payment details to complete the transaction</h2>
+            <div className="w-50 mx-auto mb-4">
+                <h5>Product Name : {data.productName} </h5>
+                <h5>Total Amount to Pay : ${data.totalAmount}</h5>
+            </div>
+
+            <Card className="w-50 mx-auto mb-5">
+                <Card.Header as="h5">Enter Your Card Info</Card.Header>
+                <Card.Body>
+                    <div className="mt-2 mb-0">
+                        <Elements stripe={stripePromise}>
+                            <CheckoutForm orderDetails={data}></CheckoutForm>
+                        </Elements>
+                    </div>
+                </Card.Body>
+            </Card>
         </div>
     );
 };

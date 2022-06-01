@@ -29,7 +29,7 @@ function App() {
         <Route path='/home' element={<Homepage></Homepage>}></Route>
         <Route path='/all_tools' element={<AllTools></AllTools>}></Route>
 
-        <Route path='/all_tools/:toolId' element={
+        <Route path='/all_tools/:id' element={
           <RequireAuth>
             <ToolDetails></ToolDetails>
           </RequireAuth>}>

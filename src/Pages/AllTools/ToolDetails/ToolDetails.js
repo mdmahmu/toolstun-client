@@ -2,28 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Row } from "react-bootstrap";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { useQuery } from "react-query";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import Loading from "../../../Components/Loading/Loading";
+import { NavLink, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import auth from "../../../firebase.init";
 
 const ToolDetails = () => {
     const [user] = useAuthState(auth);
 
-    const { toolId, orderId } = useParams();
+    const { id } = useParams();
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
-
-    const navigate = useNavigate();
 
     const [tool, setTool] = useState({});
     const [boughtAmount, setBoughtAmount] = useState({});
     const [totalAmount, setTotalAmount] = useState({});
 
     useEffect(() => {
-        fetch(`http://localhost:5000/all_tools/${toolId}`)
+        fetch(`http://localhost:5000/all_tools/${id}`)
             .then(res => res.json())
             .then(data => setTool(data));
-    }, [tool]);
+    }, [id]);
+
 
     const onSubmit = (data) => {
         const productId = tool?._id;
@@ -40,24 +38,9 @@ const ToolDetails = () => {
             .then(res => res.json())
             .then(result => {
                 reset();
-                navigateToPaymentPage();
+                toast.success('Order placed successfully');
             }
             );
-    };
-
-    const url = `http://localhost:5000/payment/${orderId}`;
-    const { isLoading, data } = useQuery('payOrder', () => fetch(url).then(res => res.json()));
-
-    const navigateToPaymentPage = async () => {
-
-        if (isLoading) {
-            return (
-                <div>
-                    <Loading></Loading>;
-                </div>
-            );
-        }
-        navigate(`/payment/${data?._id}`);
     };
 
     const handleTotalAmount = (a, b) => {
@@ -103,7 +86,7 @@ const ToolDetails = () => {
                         <input className="mb-2" placeholder="Phone number" {...register("phone")} type="text" required />
                         <div className="text-center">
                             {
-                                tool?.quantity === 0 ? <Button variant="info" className="w-25" disabled>Checkout</Button> : <Button variant="info" type="submit" className="px-3 mb-4">Checkout</Button>
+                                tool?.quantity === 0 ? <Button variant="info" className="w-25" disabled>Place Order</Button> : <Button variant="info" type="submit" className="px-3 mb-4">Place Order</Button>
                             }
                         </div>
                     </form>

@@ -42,7 +42,7 @@ const Reviews = () => {
             >
                 {
                     !reviews ? <Loading></Loading> :
-                        reviews.map(review => <SwiperSlide>
+                        reviews.map(review => <SwiperSlide key={review._id}>
                             <Review key={review._id} review={review}></Review>
                         </SwiperSlide>)
                 }
