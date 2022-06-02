@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Row } from "react-bootstrap";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../../../firebase.init";
 
 const ToolDetails = () => {
     const [user] = useAuthState(auth);
+    const navigate = useNavigate();
 
     const { id } = useParams();
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
@@ -39,10 +40,19 @@ const ToolDetails = () => {
             .then(result => {
                 reset();
                 toast.success('Order placed successfully');
+                const orderId = result?.result?.insertedId;
+
+                fetch(`http://localhost:5000/payment/${orderId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        navigateToPaymentPage(data?._id);
+                    });
             }
             );
     };
-
+    const navigateToPaymentPage = id => {
+        navigate(`/payment/${id}`);
+    };
     const handleTotalAmount = (a, b) => {
         const total = a * b;
         setTotalAmount(total);
@@ -86,7 +96,7 @@ const ToolDetails = () => {
                         <input className="mb-2" placeholder="Phone number" {...register("phone")} type="text" required />
                         <div className="text-center">
                             {
-                                tool?.quantity === 0 ? <Button variant="info" className="w-25" disabled>Place Order</Button> : <Button variant="info" type="submit" className="px-3 mb-4">Place Order</Button>
+                                tool?.quantity === 0 ? <Button variant="info" className="w-25" disabled>Checkout</Button> : <Button variant="info" type="submit" className="px-3 mb-4">Checkout</Button>
                             }
                         </div>
                     </form>
