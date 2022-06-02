@@ -1,11 +1,11 @@
 import React from 'react';
 import { Row } from "react-bootstrap";
 import Loading from "../../../Components/Loading/Loading";
-import useProducts from "../../Shared/Hooks/useOrders";
+import useMyProducts from "../../Shared/Hooks/useMyProducts";
 import SingleTool from "./SingleTool/SingleTool";
 
 const NewArrivals = () => {
-    const [tools] = useProducts([]);
+    const [tools] = useMyProducts([]);
 
     const newTools = tools.slice(-6, tools.length);
 
@@ -16,7 +16,7 @@ const NewArrivals = () => {
                 <Row xs={1} md={2} lg={3} className="g-4">
                     {
                         !newTools ? <Loading></Loading> :
-                            newTools.map(tool => <SingleTool key={tool._id} tool={tool}></SingleTool>
+                            newTools?.map(tool => <SingleTool key={tool._id} tool={tool}></SingleTool>
                             )
                     }
                 </Row>

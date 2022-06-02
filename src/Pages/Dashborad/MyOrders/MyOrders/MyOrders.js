@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { Alert, Table } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { Table } from "react-bootstrap";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useQuery } from "react-query";
 import Loading from "../../../../Components/Loading/Loading";
 import auth from "../../../../firebase.init";
 import Order from "../Order/Order";
@@ -9,26 +8,14 @@ import Order from "../Order/Order";
 const MyOrders = () => {
     const [user] = useAuthState(auth);
     const emailOrUid = user?.email || user?.providerData[0]?.uid;
-    const [show, setShow] = useState(true);
 
-    const url = `http://localhost:5000/orders?emailOrUid=${emailOrUid}`;
+    const [myOrders, setMyOrders] = useState([]);
 
-    const { isLoading, error, data, refetch } = useQuery('findingMyOrders', () => fetch(url).then(res => res.json()));
-
-    if (isLoading) {
-        return <Loading></Loading>;
-    }
-
-    if (error) {
-        if (show) {
-            return (
-                <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                    <Alert.Heading>Oh no! You got an error!</Alert.Heading>
-                    <p>Error : {error.message}</p>
-                </Alert>
-            );
-        }
-    }
+    useEffect(() => {
+        fetch(`http://localhost:5000/orders?emailOrUid=${emailOrUid}`)
+            .then(res => res.json())
+            .then(data => setMyOrders(data));
+    }, [emailOrUid]);
 
     return (
         <div>
@@ -46,7 +33,8 @@ const MyOrders = () => {
                     </thead>
                     <tbody>
                         {
-                            data.map((myOrder, index) => <Order key={index} myOrder={[myOrder, index, refetch]}></Order>)
+                            !myOrders ? <Loading></Loading> :
+                                myOrders?.map((myOrder, index) => <Order key={index} myOrder={[myOrder, index]}></Order>)
                         }
                     </tbody>
                 </Table>
