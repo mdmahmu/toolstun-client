@@ -36,8 +36,8 @@ const Payment = () => {
         <div className="container">
             <h2 className="text-center text-danger my-4">Enter payment details to complete the transaction</h2>
             <div className="w-50 mx-auto mb-4">
-                <h5>Product Name : {data.productName} </h5>
-                <h5>Total Amount to Pay : ${data.totalAmount}</h5>
+                <h5 className="text-secondary">Product Name : {data.productName} </h5>
+                <h5 className="text-secondary">Total Amount to Pay : ${data.bought * data.unitPrice}</h5>
             </div>
 
             <Card className="w-50 mx-auto mb-5">

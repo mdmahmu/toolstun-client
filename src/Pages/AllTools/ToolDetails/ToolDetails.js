@@ -15,7 +15,8 @@ const ToolDetails = () => {
 
     const [tool, setTool] = useState({});
     const [boughtAmount, setBoughtAmount] = useState({});
-    const [totalAmount, setTotalAmount] = useState({});
+    const unitPrice = tool?.price;
+    const emailOrUid = user?.email || user?.providerData[0]?.uid;
 
     useEffect(() => {
         fetch(`http://localhost:5000/all_tools/${id}`)
@@ -27,7 +28,8 @@ const ToolDetails = () => {
     const onSubmit = (data) => {
         const productId = tool?._id;
         const productName = tool?.name;
-        Object.assign(data, { productId, productName, totalAmount });
+        Object.assign(data, { productId, emailOrUid, productName, unitPrice });
+
         const url = `http://localhost:5000/place_order`;
         fetch(url, {
             method: 'POST',
@@ -53,10 +55,6 @@ const ToolDetails = () => {
     const navigateToPaymentPage = id => {
         navigate(`/payment/${id}`);
     };
-    const handleTotalAmount = (a, b) => {
-        const total = a * b;
-        setTotalAmount(total);
-    };
 
     return (
         <div className="container">
@@ -71,25 +69,24 @@ const ToolDetails = () => {
                     <h1>{tool?.name}</h1>
                     <p>Description: {tool?.description}</p>
                     <h5>Price: {tool?.price}</h5>
-                    <h5>Total Quantity: {tool?.quantity}</h5>
+                    <h5>Available Quantity: {tool?.quantity}</h5>
                     <h5>Already Sold: {tool?.sold}</h5>
-                    <h5>Available stock: {tool.quantity - tool.sold}</h5>
                     <h5>Minimum quantity to order: {tool.minOrder}</h5>
                     <hr />
                     <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column w-75 mx-auto">
                         <div className="text-center">
                             <p className="mb-1">Want to buy : </p>
-                            <input className="ms-2" placeholder="Quantity" type='number' {...register("bought", { min: `${tool.minOrder}`, max: `${tool.quantity - tool.sold}` })} required onChange={(e) => setBoughtAmount(e.target.value)} onBlur={() => handleTotalAmount(tool.price, boughtAmount)} />
+
+                            <input className="ms-2" placeholder="Quantity" type='number' {...register("bought", { min: `${tool.minOrder}`, max: `${tool.quantity - tool.sold}` })} onChange={(e) => setBoughtAmount(e.target.value)} required />
                             <p>
                                 {errors.bought && "Please enter right quantity"}
                             </p>
+
                             <h5>Total Amount : {tool?.price * boughtAmount}</h5>
                             <hr />
                         </div>
                         <p>Your Name : {user.displayName ? user.displayName : <span className="text-danger">No name found. (update profile)</span>}</p>
                         <p>Your Email/Uid : {user?.email || user?.providerData[0]?.uid}</p>
-
-                        <input className="mb-2" defaultValue={user?.email || user?.providerData[0]?.uid} type="text" placeholder="Email or uid" {...register("emailOrUid")} required readOnly />
 
                         <textarea placeholder="Your address" style={{ resize: 'none' }} {...register("address")} rows="2" cols="23" className="mb-2" required />
 

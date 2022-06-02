@@ -9,8 +9,8 @@ const CheckoutForm = ({ orderDetails }) => {
     const elements = useElements();
     const [clientSecret, setClientSecret] = useState('');
 
-    const price = parseInt(orderDetails.totalAmount);
-    console.log('Price is ', price);
+    const price = parseInt(orderDetails.bought * orderDetails.unitPrice);
+
     useEffect(() => {
         fetch('http://localhost:5000/create-payment-intent', {
             method: 'POST',
@@ -47,13 +47,11 @@ const CheckoutForm = ({ orderDetails }) => {
 
         if (error) {
             console.log('Error : ', error);
-
             setShowError(error.message);
         }
         else {
-            console.log(paymentMethod);
-
             setShowError('');
+            console.log('Create Payment ; ', paymentMethod);
         }
 
         //payment confirmation
@@ -71,12 +69,25 @@ const CheckoutForm = ({ orderDetails }) => {
         }
         else {
             setShowError('');
-            console.log(paymentIntent);
             toast.success("Payment is completed.");
+            const productId = orderDetails.productId;
+            const bought = orderDetails.bought;
+
+            const orderId = orderDetails._id;
+            const transactionId = paymentIntent.id;
+            fetch(`http://localhost:5000/update_data`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId, bought, orderId, transactionId })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                });
         }
     };
-
-
 
     return (
         <form onSubmit={handleSubmit}>
