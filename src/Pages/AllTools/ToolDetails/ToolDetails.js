@@ -19,7 +19,7 @@ const ToolDetails = () => {
     const emailOrUid = user?.email || user?.providerData[0]?.uid;
 
     useEffect(() => {
-        fetch(`http://localhost:5000/all_tools/${id}`)
+        fetch(`https://nameless-headland-97121.herokuapp.com/all_tools/${id}`)
             .then(res => res.json())
             .then(data => setTool(data));
     }, [id]);
@@ -30,7 +30,7 @@ const ToolDetails = () => {
         const productName = tool?.name;
         Object.assign(data, { productId, emailOrUid, productName, unitPrice });
 
-        const url = `http://localhost:5000/place_order`;
+        const url = `https://nameless-headland-97121.herokuapp.com/place_order`;
         fetch(url, {
             method: 'POST',
             headers: {
@@ -44,7 +44,7 @@ const ToolDetails = () => {
                 toast.success('Order placed successfully');
                 const orderId = result?.result?.insertedId;
 
-                fetch(`http://localhost:5000/payment/${orderId}`)
+                fetch(`https://nameless-headland-97121.herokuapp.com/payment/${orderId}`)
                     .then(res => res.json())
                     .then(data => {
                         navigateToPaymentPage(data?._id);

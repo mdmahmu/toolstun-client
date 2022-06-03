@@ -17,7 +17,7 @@ const ManageUsers = () => {
 
     const getUsers = async () => {
 
-        const url = `http://localhost:5000/users`;
+        const url = `https://nameless-headland-97121.herokuapp.com/users`;
 
         const res = await fetch(url, {
             headers: {

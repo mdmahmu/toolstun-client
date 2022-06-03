@@ -13,7 +13,7 @@ const AddReview = () => {
     const onSubmit = (data) => {
         Object.assign(data, { rating });
         console.log(data);
-        const url = `http://localhost:5000/add_review`;
+        const url = `https://nameless-headland-97121.herokuapp.com/add_review`;
         fetch(url, {
             method: 'POST',
             headers: {

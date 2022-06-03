@@ -21,7 +21,7 @@ const MyOrders = () => {
 
     const getMyOrders = async () => {
 
-        const url = `http://localhost:5000/orders?emailOrUid=${emailOrUid}`;
+        const url = `https://nameless-headland-97121.herokuapp.com/orders?emailOrUid=${emailOrUid}`;
 
         const res = await fetch(url, {
             headers: {

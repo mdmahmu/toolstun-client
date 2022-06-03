@@ -14,7 +14,7 @@ const Order = ({ myOrder }) => {
     };
 
     const handleDelete = (orderId) => {
-        const url = `http://localhost:5000/orders/${orderId}`;
+        const url = `https://nameless-headland-97121.herokuapp.com/orders/${orderId}`;
         fetch(url, {
             method: 'DELETE'
         })

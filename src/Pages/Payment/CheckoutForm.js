@@ -13,7 +13,7 @@ const CheckoutForm = ({ orderDetails }) => {
     const price = parseInt(orderDetails.bought * orderDetails.unitPrice);
 
     useEffect(() => {
-        fetch('http://localhost:5000/create-payment-intent', {
+        fetch('https://nameless-headland-97121.herokuapp.com/create-payment-intent', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ const CheckoutForm = ({ orderDetails }) => {
 
             const orderId = orderDetails._id;
             const transactionId = paymentIntent.id;
-            fetch(`http://localhost:5000/update_data`, {
+            fetch(`https://nameless-headland-97121.herokuapp.com/update_data`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

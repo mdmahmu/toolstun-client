@@ -6,7 +6,7 @@ const User = ({ singleUser }) => {
     const { emailOrUid, role } = oneUser;
 
     const makeAdmin = () => {
-        const url = `http://localhost:5000/users/updateRole`;
+        const url = `https://nameless-headland-97121.herokuapp.com/users/updateRole`;
         fetch(url, {
             method: 'PUT',
             headers: {

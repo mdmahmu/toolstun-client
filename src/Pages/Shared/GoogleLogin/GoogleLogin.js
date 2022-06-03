@@ -21,7 +21,7 @@ const GoogleLogin = () => {
             const emailOrUid = user.user.email || user?.user?.uid;
 
             // console.log(emailOrUid);
-            fetch(`http://localhost:5000/user`, {
+            fetch(`https://nameless-headland-97121.herokuapp.com/user`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

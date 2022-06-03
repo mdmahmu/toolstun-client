@@ -9,7 +9,7 @@ const AddProduct = () => {
     const { register, handleSubmit } = useForm();
 
     const onSubmit = (data, e) => {
-        const url = `http://localhost:5000/add_product`;
+        const url = `https://nameless-headland-97121.herokuapp.com/add_product`;
         fetch(url, {
             method: 'POST',
             headers: {

@@ -29,7 +29,7 @@ const Login = () => {
         if (user) {
             const emailOrUid = user.user.email || user?.user?.uid;
 
-            fetch(`http://localhost:5000/user`, {
+            fetch(`https://nameless-headland-97121.herokuapp.com/user`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

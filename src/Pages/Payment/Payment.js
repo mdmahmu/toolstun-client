@@ -14,7 +14,7 @@ const Payment = () => {
     const { orderId } = useParams();
     const [show, setShow] = useState(true);
 
-    const url = `http://localhost:5000/payment/${orderId}`;
+    const url = `https://nameless-headland-97121.herokuapp.com/payment/${orderId}`;
     const { isLoading, error, data } = useQuery('findingMyOrders', () => fetch(url).then(res => res.json()));
 
     if (isLoading) {

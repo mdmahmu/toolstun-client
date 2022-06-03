@@ -10,7 +10,7 @@ const Dashboard = () => {
 
     const [specificUser, setSpecificUser] = useState();
     useEffect(() => {
-        const url = `http://localhost:5000/user?emailOrUid=${emailOrUid}`;
+        const url = `https://nameless-headland-97121.herokuapp.com/user?emailOrUid=${emailOrUid}`;
         fetch(url)
             .then(res => res.json())
             .then(data => {
