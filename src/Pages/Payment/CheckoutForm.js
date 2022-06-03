@@ -1,5 +1,6 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 
@@ -8,7 +9,7 @@ const CheckoutForm = ({ orderDetails }) => {
     const stripe = useStripe();
     const elements = useElements();
     const [clientSecret, setClientSecret] = useState('');
-
+    const navigate = useNavigate();
     const price = parseInt(orderDetails.bought * orderDetails.unitPrice);
 
     useEffect(() => {
@@ -84,7 +85,7 @@ const CheckoutForm = ({ orderDetails }) => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
+                    navigate('/all_tools');
                 });
         }
     };

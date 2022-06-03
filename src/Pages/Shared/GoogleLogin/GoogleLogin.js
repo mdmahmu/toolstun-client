@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Button } from "react-bootstrap";
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Loading from "../../../Components/Loading/Loading";
 import auth from "../../../firebase.init";
 import googleLogo from "../../../Images/google.ico";
@@ -17,16 +18,19 @@ const GoogleLogin = () => {
         if (user) {
             navigate(from, { replace: true });
         }
-    }, [user]);
+    });
 
     if (error) {
-        alert(error.message);
+        toast.error(error.message);
     }
 
     if (loading) {
         return <Loading></Loading>;
     }
 
+    if (user) {
+        console.log(user);
+    }
     return (
         <div>
             <div className="d-flex justify-content-center">

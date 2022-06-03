@@ -24,10 +24,12 @@ const Payment = () => {
     if (error) {
         if (show) {
             return (
-                <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                    <Alert.Heading>Oh no! You got an error!</Alert.Heading>
-                    <p>Error : {error.message}</p>
-                </Alert>
+                <p>
+                    <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                        <Alert.Heading>Oh no! You got an error!</Alert.Heading>
+                        <p>Error : {error.message}</p>
+                    </Alert>
+                </p>
             );
         }
     }

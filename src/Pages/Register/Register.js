@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import Loading from "../../Components/Loading/Loading";
 import auth from "../../firebase.init";
@@ -12,6 +12,8 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
     const [agree, setAgree] = useState(false);
+    const [show, setShow] = useState(false);
+
     const navigate = useNavigate();
 
     const [
@@ -33,7 +35,7 @@ const Register = () => {
         if (password === confirmedPassword) {
             createUserWithEmailAndPassword(email, password);
             if (error) {
-                alert(error.message);
+                setShow(true);
             }
         }
     };
@@ -84,6 +86,14 @@ const Register = () => {
                         <Form.Group className="mb-3" controlId="formBasicCheckbox">
                             <Form.Check type="checkbox" label="Agree to the terms & conditions" onClick={() => setAgree(!agree)} />
                         </Form.Group>
+                        {
+                            show && <p>
+                                <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                                    <Alert.Heading>Oh no! You got an error!</Alert.Heading>
+                                    <p>Error : {error.message}</p>
+                                </Alert>
+                            </p>
+                        }
                         {
                             agree ? <Button variant="danger" type="submit" className="px-3">Register</Button> : <Button variant="light" type="submit" className="px-3" disabled>Register</Button>
                         }

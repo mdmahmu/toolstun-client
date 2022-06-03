@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
 import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,6 +11,8 @@ const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [show, setShow] = useState(false);
+
     const navigate = useNavigate();
 
     const location = useLocation();
@@ -33,7 +35,7 @@ const Login = () => {
         event.preventDefault();
         await signInWithEmailAndPassword(email, password);
         if (error) {
-            alert(error.message);
+            setShow(true);
         }
     };
 
@@ -85,7 +87,14 @@ const Login = () => {
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                         </Form.Group>
-
+                        {
+                            show && <p>
+                                <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                                    <Alert.Heading>Oh no! You got an error!</Alert.Heading>
+                                    <p>Error : {error.message}</p>
+                                </Alert>
+                            </p>
+                        }
                         <Button variant="danger" type="submit">
                             Login
                         </Button>

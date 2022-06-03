@@ -12,10 +12,14 @@ const MyOrders = () => {
     const [myOrders, setMyOrders] = useState([]);
 
     useEffect(() => {
+        getMyOrders();
+    });
+
+    const getMyOrders = () => {
         fetch(`http://localhost:5000/orders?emailOrUid=${emailOrUid}`)
             .then(res => res.json())
             .then(data => setMyOrders(data));
-    }, [emailOrUid]);
+    };
 
     return (
         <div>
@@ -27,7 +31,7 @@ const MyOrders = () => {
                             <th>#</th>
                             <th>Product Name</th>
                             <th>Product ID</th>
-                            <th>Total Amount</th>
+                            <th>Amount</th>
                             <th className="text-center">Paid ?</th>
                         </tr>
                     </thead>

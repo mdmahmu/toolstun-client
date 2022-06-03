@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
@@ -6,10 +6,23 @@ const Order = ({ myOrder }) => {
     const [order, index] = myOrder;
 
     const [modalShow, setModalShow] = useState(false);
+    const [modalShow2, setModalShow2] = useState(false);
 
     const navigate = useNavigate();
     const navigateToItemDetail = id => {
         navigate(`/payment/${id}`);
+    };
+
+    const handleDelete = (orderId) => {
+        const url = `http://localhost:5000/orders/${orderId}`;
+        fetch(url, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(result => {
+                setModalShow2(false);
+            }
+            );
     };
 
     return (
@@ -28,26 +41,39 @@ const Order = ({ myOrder }) => {
                         </div> :
                         <div className="d-flex">
                             <Button onClick={() => navigateToItemDetail(order._id)} variant="info" className="px-4">Pay</Button>
-                            <Button onClick={() => navigateToItemDetail(order._id)} variant="danger" className="px-4 ms-2">Del</Button>
+                            <Button variant="danger" className="px-4 ms-2" onClick={() => setModalShow2(true)}>Del</Button>
                         </div>
                 }
             </td>
 
-            <Modal show={modalShow} centered>
-                <Modal.Header className="bg-secondary">
+            <Modal show={modalShow} centered onHide={() => setModalShow(false)}>
+                <Modal.Header className="bg-secondary" closeButton>
                     <Modal.Title id="contained-modal-title-vcenter" className="text-white">
-                        Transaction Id
+                        <h5>Payment is completed for this order</h5>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h4>{order.transactionId}</h4>
+                    <p>Transaction Id : <span className="fs-5">{order.transactionId}</span></p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={() => setModalShow(false)} variant="dark">Close</Button>
                 </Modal.Footer>
             </Modal>
 
-
+            <Modal show={modalShow2} centered onHide={() => setModalShow2(false)}>
+                <Modal.Header className="bg-danger text-dark" closeButton>
+                    <Modal.Title>Warning !</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Do you really want to delete this order?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setModalShow2(false)}>
+                        No
+                    </Button>
+                    <Button variant="dark" onClick={() => handleDelete(order._id)}>
+                        Yes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </tr>
     );
 };
