@@ -10,6 +10,10 @@ import logo from '../../../Images/logo.png';
 const Header = () => {
     const [user] = useAuthState(auth);
 
+    const logout = () => {
+        signOut(auth);
+        localStorage.removeItem('accessToken');
+    };
     return (
         <header>
             <nav>
@@ -28,7 +32,7 @@ const Header = () => {
                                 {user ?
                                     <>
                                         <Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
-                                        <Nav.Link as={NavLink} to="/login" onClick={() => signOut(auth)}>Log out</Nav.Link>
+                                        <Nav.Link as={NavLink} to="/login" onClick={logout}>Log out</Nav.Link>
                                     </> : <>
                                         <Nav.Link as={NavLink} to="/register">Register</Nav.Link>
                                         <Nav.Link as={NavLink} to="/login">Login</Nav.Link>

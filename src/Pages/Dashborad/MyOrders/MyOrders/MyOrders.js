@@ -1,12 +1,16 @@
+import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from 'react';
 import { Table } from "react-bootstrap";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 import Loading from "../../../../Components/Loading/Loading";
 import auth from "../../../../firebase.init";
 import Order from "../Order/Order";
 
 const MyOrders = () => {
     const [user] = useAuthState(auth);
+    const navigate = useNavigate();
+
     const emailOrUid = user?.email || user?.providerData[0]?.uid;
 
     const [myOrders, setMyOrders] = useState([]);
@@ -15,10 +19,24 @@ const MyOrders = () => {
         getMyOrders();
     });
 
-    const getMyOrders = () => {
-        fetch(`http://localhost:5000/orders?emailOrUid=${emailOrUid}`)
-            .then(res => res.json())
-            .then(data => setMyOrders(data));
+    const getMyOrders = async () => {
+
+        const url = `http://localhost:5000/orders?emailOrUid=${emailOrUid}`;
+
+        const res = await fetch(url, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        });
+        if (res.status === 200) {
+            const data = await res.json();
+            setMyOrders(data);
+        }
+        else {
+            signOut(auth);
+            localStorage.removeItem('accessToken');
+            navigate("/login");
+        }
     };
 
     return (

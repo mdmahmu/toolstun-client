@@ -1,12 +1,15 @@
+import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import auth from "./firebase.init";
 import AllTools from "./Pages/AllTools/AllTools";
 import ToolDetails from "./Pages/AllTools/ToolDetails/ToolDetails";
 import Blogs from "./Pages/Blogs/Blogs";
 import AddProduct from "./Pages/Dashborad/AddProduct/AddProduct";
 import AddReview from "./Pages/Dashborad/AddReview/AddReview";
 import Dashboard from "./Pages/Dashborad/Dashboard";
-import ManageOrders from "./Pages/Dashborad/ManageOrders/ManageOrders";
+import ManageUsers from "./Pages/Dashborad/ManageUsers/ManageUsers";
 import MyOrders from "./Pages/Dashborad/MyOrders/MyOrders/MyOrders";
 import MyProfile from "./Pages/Dashborad/MyProfile/MyProfile";
 import Homepage from "./Pages/Homepage/Homepage";
@@ -20,6 +23,18 @@ import Header from "./Pages/Shared/Header/Header";
 import RequireAuth from "./Pages/Shared/RequireAuth/RequireAuth";
 
 function App() {
+  const [user] = useAuthState(auth);
+  const emailOrUid = user?.email || user?.providerData[0]?.uid;
+
+  const [specificUser, setSpecificUser] = useState();
+  useEffect(() => {
+    const url = `http://localhost:5000/user?emailOrUid=${emailOrUid}`;
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setSpecificUser(data);
+      });
+  });
 
   return (
     <div>
@@ -51,10 +66,15 @@ function App() {
             <Dashboard></Dashboard>
           </RequireAuth>}>
 
-          <Route index element={<MyOrders></MyOrders>}></Route>
-          <Route path="manage_orders" element={<ManageOrders></ManageOrders>}></Route>
-          <Route path="add_product" element={<AddProduct></AddProduct>}></Route>
+          {
+            !specificUser?.role ?
+              <Route index element={<MyOrders></MyOrders>}></Route> :
+              <Route index element={<ManageUsers></ManageUsers>}></Route>
+          }
+
           <Route path="my_orders" element={<MyOrders></MyOrders>}></Route>
+          <Route path="manage_users" element={<ManageUsers></ManageUsers>}></Route>
+          <Route path="add_product" element={<AddProduct></AddProduct>}></Route>
           <Route path="add_review" element={<AddReview></AddReview>}></Route>
           <Route path="my_profile" element={<MyProfile></MyProfile>}></Route>
         </Route>

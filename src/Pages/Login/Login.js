@@ -12,7 +12,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [show, setShow] = useState(false);
-
+    const [token, setToken] = useState('');
     const navigate = useNavigate();
 
     const location = useLocation();
@@ -27,9 +27,27 @@ const Login = () => {
 
     useEffect(() => {
         if (user) {
-            navigate(from, { replace: true });
+            const emailOrUid = user.user.email || user?.user?.uid;
+
+            fetch(`http://localhost:5000/user`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ emailOrUid })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    const accessToken = data.token;
+                    localStorage.setItem('accessToken', accessToken);
+                    setToken(accessToken);
+                });
         }
     }, [user]);
+
+    if (token) {
+        navigate(from, { replace: true });
+    }
 
     const handleLogin = async event => {
         event.preventDefault();

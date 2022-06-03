@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "react-bootstrap";
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from "react-router-dom";
@@ -9,6 +9,8 @@ import googleLogo from "../../../Images/google.ico";
 
 const GoogleLogin = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    const [token, setToken] = useState('');
+
     const navigate = useNavigate();
 
     const location = useLocation();
@@ -16,9 +18,29 @@ const GoogleLogin = () => {
 
     useEffect(() => {
         if (user) {
-            navigate(from, { replace: true });
+            const emailOrUid = user.user.email || user?.user?.uid;
+
+            // console.log(emailOrUid);
+            fetch(`http://localhost:5000/user`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ emailOrUid })
+            })
+                .then(res => res.json())
+                .then(data => {
+
+                    const accessToken = data.token;
+                    localStorage.setItem('accessToken', accessToken);
+                    setToken(accessToken);
+                });
         }
     });
+
+    if (token) {
+        navigate(from, { replace: true });
+    }
 
     if (error) {
         toast.error(error.message);

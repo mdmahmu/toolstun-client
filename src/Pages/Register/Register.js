@@ -13,6 +13,7 @@ const Register = () => {
     const [confirmedPassword, setConfirmedPassword] = useState('');
     const [agree, setAgree] = useState(false);
     const [show, setShow] = useState(false);
+    const [token, setToken] = useState('');
 
     const navigate = useNavigate();
 
@@ -25,9 +26,28 @@ const Register = () => {
 
     useEffect(() => {
         if (user) {
-            navigate('/');
+            const emailOrUid = user.user.email || user?.user?.uid;
+
+            // console.log(emailOrUid);
+            fetch(`http://localhost:5000/user`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ emailOrUid })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    const accessToken = data.token;
+                    localStorage.setItem('accessToken', accessToken);
+                    setToken(accessToken);
+                });
         }
     }, [user]);
+
+    if (token) {
+        navigate('/');
+    }
 
     const handleRegister = event => {
         event.preventDefault();
